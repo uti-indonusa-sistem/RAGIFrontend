@@ -34,6 +34,11 @@ const DEFAULT_RESERVED_SUBDOMAINS = [
   'demo',
 ];
 
+const DEFAULT_BASE_DOMAINS = ['poltekindonusa.ac.id'];
+const DOMAIN_MAP: Record<string, string> = {
+  'spmb-new.poltekindonusa.ac.id': 'spmb',
+};
+
 function parseList(value?: string | null): string[] | null {
   if (!value) return null;
   const items = value
@@ -47,7 +52,7 @@ function staticConfig(): TenantConfig {
   const baseDomains =
     parseList(process.env.TENANT_BASE_DOMAINS) ??
     parseList(process.env.NEXT_PUBLIC_BASE_DOMAINS) ??
-    ['polinus.cloud', 'polinus.ac.id', 'ragi.cloud'];
+    DEFAULT_BASE_DOMAINS;
 
   const reserved =
     parseList(process.env.TENANT_RESERVED_SUBDOMAINS) ?? DEFAULT_RESERVED_SUBDOMAINS;
@@ -55,7 +60,7 @@ function staticConfig(): TenantConfig {
   return {
     baseDomains,
     reservedSubdomains: reserved,
-    domainMap: {},
+    domainMap: DOMAIN_MAP,
     enabledModules: SYSTEM_MODULES.map((m) => m.value),
   };
 }
